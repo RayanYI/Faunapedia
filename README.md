@@ -2,7 +2,7 @@
 
 **Faunapedia** is a hybrid platform combining a collaborative animal encyclopedia with social network features. Users can browse animal species and share their own photos to contribute to the gallery.
 
-![Faunapedia Cover](https://plus.unsplash.com/premium_photo-1661877753653-755a71abd411?auto=format&fit=crop&w=1200&q=80)
+![Faunapedia Cover](https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=1200&q=80)
 
 ## 🚀 Key Features
 
