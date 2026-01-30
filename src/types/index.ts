@@ -4,6 +4,7 @@ export interface IAnimal {
     scientificName?: string;
     description?: string;
     imageUrl?: string;
+    category?: string;
     createdAt: string;
     updatedAt: string;
 }

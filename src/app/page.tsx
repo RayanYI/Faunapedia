@@ -1,5 +1,5 @@
 import { getAnimals } from '@/actions/animals';
-import { AnimalGrid } from '@/components/animals';
+import { AnimalsSection } from '@/components/home';
 
 export default async function Home() {
   const animals = await getAnimals();
@@ -54,36 +54,8 @@ export default async function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 pb-24 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white sm:text-3xl">
-              Tous les animaux
-            </h2>
-            <p className="mt-1 text-zinc-500 dark:text-zinc-400">
-              Parcourez notre collection d&apos;espèces
-            </p>
-          </div>
-
-          {/* Filter placeholder */}
-          <div className="hidden items-center gap-2 sm:flex">
-            <button className="rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-600 dark:hover:text-emerald-400">
-              Tous
-            </button>
-            <button className="rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-600 dark:hover:text-emerald-400">
-              Mammifères
-            </button>
-            <button className="rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-600 dark:hover:text-emerald-400">
-              Oiseaux
-            </button>
-          </div>
-        </div>
-
-        {/* Animals Grid */}
-        <AnimalGrid animals={animals} />
-      </main>
+      {/* Animals Section with Filters (Client Component) */}
+      <AnimalsSection initialAnimals={animals} />
 
       {/* Footer */}
       <footer className="border-t border-zinc-200 bg-white/50 py-8 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/50">

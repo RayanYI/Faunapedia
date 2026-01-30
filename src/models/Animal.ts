@@ -15,6 +15,11 @@ const AnimalSchema = new Schema({
     imageUrl: {
         type: String,
     },
+    category: {
+        type: String,
+        enum: ["Mammifère", "Oiseau", "Reptile", "Amphibien", "Poisson", "Invertébré"],
+        index: true,
+    },
 }, { timestamps: true });
 
 const Animal = models.Animal || model("Animal", AnimalSchema);
