@@ -20,6 +20,12 @@ export async function getAnimals(category?: string): Promise<IAnimal[]> {
         return animals.map((animal: any) => ({
             ...animal,
             _id: animal._id.toString(),
+            // Serialize nativeRegions to remove MongoDB _id
+            nativeRegions: animal.nativeRegions?.map((r: any) => ({
+                lat: r.lat,
+                lng: r.lng,
+                label: r.label,
+            })),
             createdAt: animal.createdAt.toISOString(),
             updatedAt: animal.updatedAt.toISOString(),
         }));
@@ -45,6 +51,11 @@ export async function searchAnimals(query: string): Promise<IAnimal[]> {
         return animals.map((animal: any) => ({
             ...animal,
             _id: animal._id.toString(),
+            nativeRegions: animal.nativeRegions?.map((r: any) => ({
+                lat: r.lat,
+                lng: r.lng,
+                label: r.label,
+            })),
             createdAt: animal.createdAt.toISOString(),
             updatedAt: animal.updatedAt.toISOString(),
         }));
@@ -68,6 +79,11 @@ export async function getAnimalById(id: string): Promise<IAnimal | null> {
         return {
             ...(animal as any),
             _id: animal._id.toString(),
+            nativeRegions: (animal as any).nativeRegions?.map((r: any) => ({
+                lat: r.lat,
+                lng: r.lng,
+                label: r.label,
+            })),
             createdAt: animal.createdAt.toISOString(),
             updatedAt: animal.updatedAt.toISOString(),
         } as IAnimal;

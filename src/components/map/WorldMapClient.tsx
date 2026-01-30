@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import Image from 'next/image';
 import Link from 'next/link';
 import 'leaflet/dist/leaflet.css';
 
@@ -119,12 +118,15 @@ export default function WorldMapClient({ habitatPoints, postPoints }: WorldMapCl
                         <Popup className="custom-popup">
                             <div className="w-48">
                                 {point.thumbnail && (
-                                    <div className="relative mb-2 h-24 w-full overflow-hidden rounded-lg">
-                                        <Image
+                                    <div className="relative mb-2 h-24 w-full overflow-hidden rounded-lg bg-zinc-100">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
                                             src={point.thumbnail}
                                             alt={point.title}
-                                            fill
-                                            className="object-cover"
+                                            className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                            }}
                                         />
                                     </div>
                                 )}
