@@ -22,6 +22,14 @@ const PostSchema = new Schema({
         type: [{ type: Schema.Types.ObjectId, ref: "User" }],
         default: [],
     },
+    location: {
+        lat: Number,
+        lng: Number,
+        placeName: String,
+    },
+    takenAt: {
+        type: Date,
+    },
 }, {
     timestamps: true,
     toJSON: { virtuals: true },

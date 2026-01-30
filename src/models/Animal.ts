@@ -20,6 +20,11 @@ const AnimalSchema = new Schema({
         enum: ["Mammifère", "Oiseau", "Reptile", "Amphibien", "Poisson", "Invertébré"],
         index: true,
     },
+    nativeRegions: [{
+        lat: Number,
+        lng: Number,
+        label: String,
+    }],
 }, { timestamps: true });
 
 const Animal = models.Animal || model("Animal", AnimalSchema);

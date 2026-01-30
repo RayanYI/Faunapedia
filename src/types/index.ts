@@ -1,3 +1,10 @@
+export interface ILocation {
+    lat: number;
+    lng: number;
+    placeName?: string;
+    label?: string;
+}
+
 export interface IAnimal {
     _id: string;
     name: string;
@@ -5,6 +12,7 @@ export interface IAnimal {
     description?: string;
     imageUrl?: string;
     category?: string;
+    nativeRegions?: ILocation[];
     createdAt: string;
     updatedAt: string;
 }
@@ -17,6 +25,8 @@ export interface IPost {
     caption?: string;
     likes: string[]; // Array of User IDs
     isLiked?: boolean; // Computed field for current user
+    location?: ILocation;
+    takenAt?: string;
     createdAt: string;
     updatedAt: string;
 }
