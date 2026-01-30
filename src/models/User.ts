@@ -20,6 +20,17 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     }],
+    points: {
+        type: Number,
+        default: 0,
+    },
+    badges: [{
+        code: String,
+        earnedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    }],
 }, { timestamps: true });
 
 const User = models.User || model("User", UserSchema);

@@ -3,6 +3,17 @@ import { notFound } from 'next/navigation';
 import { getUserByUsername, getUserPosts, getUserLikedPosts } from '@/actions/user';
 import ProfileTabs from './ProfileTabs';
 
+// Badge info mapping
+function getBadgeInfo(code: string): { emoji: string; label: string } {
+    const badges: Record<string, { emoji: string; label: string }> = {
+        FIRST_POST: { emoji: '🥇', label: 'Explorateur Débutant' },
+        PHOTOGRAPHER: { emoji: '📸', label: 'Photographe Passionné' },
+        EXPERT: { emoji: '🏆', label: 'Expert Faune' },
+        QUIZ_MASTER: { emoji: '🧠', label: 'Maître du Quiz' },
+    };
+    return badges[code] || { emoji: '🎖️', label: code };
+}
+
 interface ProfilePageProps {
     params: Promise<{ username: string }>;
 }
@@ -90,7 +101,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                         </p>
 
                         {/* Stats */}
-                        <div className="flex gap-8 sm:gap-12">
+                        <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
                             <div className="text-center">
                                 <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
                                     {postCount}
@@ -104,10 +115,44 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                                     {likeCount}
                                 </div>
                                 <div className="text-sm text-zinc-500 dark:text-zinc-400">
-                                    J'aime
+                                    J&apos;aime
+                                </div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-3xl font-bold text-amber-500 dark:text-amber-400">
+                                    ⭐ {user.points || 0}
+                                </div>
+                                <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                                    Points
                                 </div>
                             </div>
                         </div>
+
+                        {/* Badges */}
+                        {user.badges && user.badges.length > 0 && (
+                            <div className="mt-8">
+                                <h3 className="mb-4 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                                    Badges
+                                </h3>
+                                <div className="flex flex-wrap justify-center gap-3">
+                                    {user.badges.map((badge: { code: string; earnedAt: string }, index: number) => {
+                                        const badgeInfo = getBadgeInfo(badge.code);
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-2 shadow-sm dark:from-amber-900/30 dark:to-yellow-900/30"
+                                                title={`Obtenu le ${new Date(badge.earnedAt).toLocaleDateString('fr-FR')}`}
+                                            >
+                                                <span className="text-lg">{badgeInfo.emoji}</span>
+                                                <span className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                                                    {badgeInfo.label}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

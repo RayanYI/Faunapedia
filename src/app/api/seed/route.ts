@@ -1,10 +1,56 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import Animal from "@/models/Animal";
 import Post from "@/models/Post";
+import QuizQuestion from "@/models/QuizQuestion";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 
 export const dynamic = 'force-dynamic';
+
+const INITIAL_QUIZ_QUESTIONS = [
+    {
+        question: "Quel animal est connu comme le roi de la jungle ?",
+        options: ["Le Tigre", "Le Lion", "L'Éléphant", "La Girafe"],
+        correctAnswer: 1, // Lions
+        animalName: "Lion",
+        difficulty: "easy"
+    },
+    {
+        question: "Combien d'heures par jour dort un Koala ?",
+        options: ["8 heures", "12 heures", "15 heures", "20 heures"],
+        correctAnswer: 3, // 20h
+        animalName: "Koala",
+        difficulty: "medium"
+    },
+    {
+        question: "Quel est le plus grand mammifère terrestre ?",
+        options: ["L'Hippo", "Le Rhinocéros", "L'Éléphant d'Afrique", "Le Bison"],
+        correctAnswer: 2, // Elephant
+        animalName: "Éléphant d'Afrique",
+        difficulty: "easy"
+    },
+    {
+        question: "Où vit principalement le Mancho Empereur ?",
+        options: ["Arctique", "Antarctique", "Alaska", "Groenland"],
+        correctAnswer: 1, // Antarctique
+        animalName: "Manchot Empereur",
+        difficulty: "medium"
+    },
+    {
+        question: "Quel animal mange presque exclusivement du bambou ?",
+        options: ["Le Panda Roux", "Le Koala", "Le Panda Géant", "Le Lemurien"],
+        correctAnswer: 2, // Panda Geant
+        animalName: "Panda Géant",
+        difficulty: "easy"
+    },
+    {
+        question: "Quelle est la particularité de la vision de l'Aigle Royal ?",
+        options: ["Il voit en noir et blanc", "Il voit 8x mieux qu'un humain", "Il est aveugle la nuit", "Il voit les infrarouges"],
+        correctAnswer: 1, // 8x mieux
+        animalName: "Aigle Royal",
+        difficulty: "hard"
+    }
+];
 
 const INITIAL_ANIMALS = [
     {
@@ -157,12 +203,31 @@ export async function GET() {
             updatedPosts.push(post._id);
         }
 
+        // 3. Seed Quiz Questions
+        let quizCount = 0;
+        for (const q of INITIAL_QUIZ_QUESTIONS) {
+            // Find animal ID if linked
+            const animal = await Animal.findOne({ name: q.animalName });
+            const animalId = animal ? animal._id : undefined;
+
+            await QuizQuestion.findOneAndUpdate(
+                { question: q.question },
+                {
+                    ...q,
+                    animal: animalId
+                },
+                { upsert: true, new: true }
+            );
+            quizCount++;
+        }
+
         revalidatePath('/');
 
         return NextResponse.json({
-            message: "Database seeded and migrated successfully",
+            message: "Database seeded and migrated successfully (Animals, Map, Quiz)",
             animalsCount: INITIAL_ANIMALS.length,
-            postsUpdated: updatedPosts.length
+            postsUpdated: updatedPosts.length,
+            quizQuestions: quizCount
         });
     } catch (error) {
         console.error("Seeding error:", error);

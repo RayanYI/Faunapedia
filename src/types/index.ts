@@ -47,6 +47,20 @@ export interface IUser {
     username?: string;
     photo?: string;
     following: string[];
+    points: number;
+    badges: {
+        code: string;
+        earnedAt: string;
+    }[];
     createdAt: string;
     updatedAt: string;
+}
+
+export interface IQuizQuestion {
+    _id: string;
+    question: string;
+    options: string[];
+    correctAnswer: number; // Index 0-3
+    animal?: IAnimal | string;
+    difficulty: 'easy' | 'medium' | 'hard';
 }

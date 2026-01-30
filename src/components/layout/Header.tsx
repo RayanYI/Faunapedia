@@ -62,7 +62,20 @@ export default function Header() {
                             <span className="hidden sm:inline">Carte</span>
                         </Link>
 
-                        {/* Post Button - Always visible for signed in users */}
+                        {/* Quiz Link */}
+                        <Link
+                            href="/quiz"
+                            className={`
+                                flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all
+                                ${pathname === '/quiz'
+                                    ? 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+                                    : 'text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800'
+                                }
+                            `}
+                        >
+                            <span className="text-base">🧠</span>
+                            <span className="hidden sm:inline">Quiz</span>
+                        </Link>
                         <SignedIn>
                             <Link
                                 href="/poster"
