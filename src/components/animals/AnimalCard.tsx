@@ -35,7 +35,7 @@ export default function AnimalCard({ animal }: AnimalCardProps) {
                     <div className="absolute left-3 top-3">
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-emerald-700 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-emerald-400">
                             <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-                            Animal
+                            {animal.category || 'Animal'}
                         </span>
                     </div>
                 </div>
