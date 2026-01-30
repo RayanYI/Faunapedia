@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { IComment, IUser } from '@/types';
 import { getCommentsByPostId, addComment } from '@/actions/social';
@@ -143,28 +144,48 @@ export default function CommentsSection({ postId, onClose }: CommentsSectionProp
                                     ${comment._id.startsWith('temp-') ? 'opacity-70' : ''}
                                 `}
                             >
-                                {/* Avatar */}
-                                <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
-                                    {commentUser?.photo ? (
-                                        <Image
-                                            src={commentUser.photo}
-                                            alt={commentUser.username || 'User'}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    ) : (
+                                {/* Avatar - Clickable */}
+                                {commentUser?.username ? (
+                                    <Link
+                                        href={`/profil/${commentUser.username}`}
+                                        className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full transition-all hover:ring-2 hover:ring-emerald-500"
+                                    >
+                                        {commentUser.photo ? (
+                                            <Image
+                                                src={commentUser.photo}
+                                                alt={commentUser.username}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        ) : (
+                                            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-teal-500 text-white text-xs font-semibold">
+                                                {commentUser.username.charAt(0).toUpperCase()}
+                                            </div>
+                                        )}
+                                    </Link>
+                                ) : (
+                                    <div className="relative h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
                                         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-teal-500 text-white text-xs font-semibold">
-                                            {commentUser?.username?.charAt(0).toUpperCase() || '?'}
+                                            ?
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
 
                                 {/* Content */}
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-baseline gap-2">
-                                        <span className="font-semibold text-sm text-zinc-900 dark:text-white">
-                                            {commentUser?.username || 'Anonyme'}
-                                        </span>
+                                        {commentUser?.username ? (
+                                            <Link
+                                                href={`/profil/${commentUser.username}`}
+                                                className="font-semibold text-sm text-zinc-900 hover:text-emerald-600 transition-colors dark:text-white dark:hover:text-emerald-400"
+                                            >
+                                                {commentUser.username}
+                                            </Link>
+                                        ) : (
+                                            <span className="font-semibold text-sm text-zinc-900 dark:text-white">
+                                                Anonyme
+                                            </span>
+                                        )}
                                         <span className="text-xs text-zinc-400">
                                             {timeAgo}
                                         </span>

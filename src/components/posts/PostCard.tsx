@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { IPost, IUser } from '@/types';
 import { toggleLike } from '@/actions/social';
@@ -143,29 +144,49 @@ export default function PostCard({ post }: PostCardProps) {
 
             {/* User Info */}
             <div className="flex items-center gap-3 p-4">
-                {/* Avatar */}
-                <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-emerald-500/20">
-                    {postUser?.photo ? (
-                        <Image
-                            src={postUser.photo}
-                            alt={postUser.username || 'User'}
-                            fill
-                            className="object-cover"
-                        />
-                    ) : (
+                {/* Avatar - Clickable */}
+                {postUser?.username ? (
+                    <Link
+                        href={`/profil/${postUser.username}`}
+                        className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-emerald-500/20 transition-all hover:ring-emerald-500 hover:ring-offset-2"
+                    >
+                        {postUser.photo ? (
+                            <Image
+                                src={postUser.photo}
+                                alt={postUser.username}
+                                fill
+                                className="object-cover"
+                            />
+                        ) : (
+                            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-teal-500 text-white">
+                                <span className="text-sm font-semibold">
+                                    {postUser.username.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                        )}
+                    </Link>
+                ) : (
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-emerald-500/20">
                         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-emerald-400 to-teal-500 text-white">
-                            <span className="text-sm font-semibold">
-                                {postUser?.username?.charAt(0).toUpperCase() || '?'}
-                            </span>
+                            <span className="text-sm font-semibold">?</span>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
 
                 {/* User Details */}
                 <div className="flex-1 min-w-0">
-                    <p className="truncate font-semibold text-zinc-900 dark:text-white">
-                        {postUser?.username || 'Utilisateur anonyme'}
-                    </p>
+                    {postUser?.username ? (
+                        <Link
+                            href={`/profil/${postUser.username}`}
+                            className="truncate font-semibold text-zinc-900 hover:text-emerald-600 transition-colors dark:text-white dark:hover:text-emerald-400"
+                        >
+                            {postUser.username}
+                        </Link>
+                    ) : (
+                        <p className="truncate font-semibold text-zinc-900 dark:text-white">
+                            Utilisateur anonyme
+                        </p>
+                    )}
                     <p className="text-xs text-zinc-500 dark:text-zinc-400">
                         {timeAgo}
                     </p>
