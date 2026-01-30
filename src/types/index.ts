@@ -15,6 +15,17 @@ export interface IPost {
     user: IUser | string; // Populated or ID
     animal: IAnimal | string; // Populated or ID
     caption?: string;
+    likes: string[]; // Array of User IDs
+    isLiked?: boolean; // Computed field for current user
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IComment {
+    _id: string;
+    content: string;
+    user: IUser | string;
+    post: string;
     createdAt: string;
     updatedAt: string;
 }

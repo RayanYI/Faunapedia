@@ -18,7 +18,23 @@ const PostSchema = new Schema({
     caption: {
         type: String,
     },
-}, { timestamps: true });
+    likes: {
+        type: [{ type: Schema.Types.ObjectId, ref: "User" }],
+        default: [],
+    },
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+// Virtual for comment count (we will implement the Comment model next)
+PostSchema.virtual('commentCount', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'post',
+    count: true
+});
 
 const Post = models.Post || model("Post", PostSchema);
 export default Post;
